@@ -1,0 +1,16 @@
+{
+    "name": "get-value-ui",
+    "version": "1.0.0",
+    "description": "A simple UI to get a value from the user",
+    "main": "app.js",
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {
+      "start": "node src/index.js",
+      "dev": "nodemon src/index.js"
+    },
+    "keywords": [],
+    "author": "Your Name",
+    "license": "MIT"
+  }
+  

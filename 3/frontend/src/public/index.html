@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Get Value UI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Enter a Value:</h1>
+    <input id="value-input" type="text" />
+    <button id="square-btn">Square</button>
+    <button id="squareroot-btn">Square Root</button>
+    <button id="cube-btn">Cube</button>
+    <p id="result"></p>
+    <script src="index.js"></script>
+    <script>
+      const squareBtn = document.getElementById('square-btn');
+      const squarerootBtn = document.getElementById('squareroot-btn');
+      const cubeBtn = document.getElementById('cube-btn');
+      const result = document.getElementById('result');
+      
+      squareBtn.addEventListener('click', async () => {
+        const value = document.getElementById('value-input').value;
+        const response = await fetch('http://backend/square', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ value })
+        });
+        const data = await response.json();
+        result.innerHTML = `Result: ${data.result}`;
+      });
+      
+      squarerootBtn.addEventListener('click', async () => {
+        const value = document.getElementById('value-input').value;
+        const response = await fetch('http://backend/squareroot', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ value })
+        });
+        const data = await response.json();
+        result.innerHTML = `Result: ${data.result}`;
+      });
+      
+      cubeBtn.addEventListener('click', async () => {
+        const value = document.getElementById('value-input').value;
+        const response = await fetch('http://backend/cube', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ value })
+        });
+        const data = await response.json();
+        result.innerHTML = `Result: ${data.result}`;
+      });
+    </script>
+  </body>
+</html>

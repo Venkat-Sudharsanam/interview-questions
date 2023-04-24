@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    
+    environment {
+        AWS_DEFAULT_REGION = 'your-aws-region'
+        ECR_REGISTRY = 'your-ecr-registry'
+        ECR_REPOSITORY_FRONTEND = 'your-ecr-repository-frontend'
+        ECR_REPOSITORY_BACKEND = 'your-ecr-repository-backend'
+        EKS_CLUSTER_NAME = 'your-eks-cluster-name'
+        K8S_NAMESPACE = 'your-k8s-namespace'
+    }
+    
+    stages {
+        stage('Build frontend image') {
+            steps {
+                script {
+                    docker.build("${ECR_REGISTRY}/${ECR_REPOSITORY_FRONTEND}:${env.BUILD_NUMBER}", './frontend')
+                }
+            }
+        }
+        
+        stage('Build backend image') {
+            steps {
+                script {
+                    docker.build("${ECR_REGISTRY}/${ECR_REPOSITORY_BACKEND}:${env.BUILD_NUMBER}", './backend')
+                }
+            }
+        }
+        
+        stage('Push images to ECR') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'your-aws-credentials-id', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                    sh "docker push ${ECR_REGISTRY}/${ECR_REPOSITORY_FRONTEND}:${env.BUILD_NUMBER}"
+                    sh "docker push ${ECR_REGISTRY}/${ECR_REPOSITORY_BACKEND}:${env.BUILD_NUMBER}"
+                }
+            }
+        }
+        
+        stage('Deploy to EKS') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'your-aws-credentials-id', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh "aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${EKS_CLUSTER_NAME}"
+                    sh "kubectl apply -f ./backend/k8sfiles/deployment.yaml -n ${K8S_NAMESPACE}"
+                    sh "kubectl apply -f ./backend/k8sfiles/service.yaml -n ${K8S_NAMESPACE}"
+                    sh "kubectl apply -f ./frontend/k8sfiles/deployment.yaml -n ${K8S_NAMESPACE}"
+                    sh "kubectl apply -f ./frontend/k8sfiles/service.yaml -n ${K8S_NAMESPACE}"
+                }
+            }
+        }
+    }
+}
