@@ -21,8 +21,8 @@ terraform apply -auto-approve
 
 tf-code-venkat-aws folder ---> This code is already created environment.
 
-> You can access it by below http://3.74.6.157/, which will take you to https://3.74.6.157/
+> You can access it by below http://3.74.6.157:8080/, which will take you to https://3.74.6.157:8443/
 
->You can access it by below http://3.74.6.157/app, which will take you to https://3.74.6.157/app
+>You can access it by below http://3.74.6.157:8080/app, which will take you to https://3.74.6.157:8443/app
 
-> You can directly access https://3.74.6.157/ or https://3.74.6.157/app
+> You can directly access https://3.74.6.157:8443/ or https://3.74.6.157:8443/app
