@@ -1,0 +1,167 @@
++ threshold=5
+++ awk 'NR>1 && !/\/$/{print $5 " " $6}'
+++ df -h
++ disk_usage='0% /dev
+0% /dev/shm
+6% /run
+0% /sys/fs/cgroup
+0% /run/user/1000'
++ read -r line
+++ awk '{ print $1 }'
+++ cut -d% -f1
+++ echo 0% /dev
++ usage=0
+++ awk '{ print $2 }'
+++ echo 0% /dev
++ mount_point=/dev
++ '[' 0 -gt 5 ']'
++ read -r line
+++ awk '{ print $1 }'
+++ cut -d% -f1
+++ echo 0% /dev/shm
++ usage=0
+++ awk '{ print $2 }'
+++ echo 0% /dev/shm
++ mount_point=/dev/shm
++ '[' 0 -gt 5 ']'
++ read -r line
+++ awk '{ print $1 }'
+++ cut -d% -f1
+++ echo 6% /run
++ usage=6
+++ awk '{ print $2 }'
+++ echo 6% /run
++ mount_point=/run
++ '[' 6 -gt 5 ']'
+++ curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone
++ availability_zone=eu-central-1c
++ region=eu-central-1
+++ aws ec2 create-volume --availability-zone eu-central-1c --region eu-central-1 --size 10 --volume-type gp2 --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=NewDisk}]' --output json
++ response='{
+    "AvailabilityZone": "eu-central-1c",
+    "CreateTime": "2023-05-03T08:39:22.000Z",
+    "Encrypted": false,
+    "Size": 10,
+    "SnapshotId": "",
+    "State": "creating",
+    "VolumeId": "vol-044011b6a8791791b",
+    "Iops": 100,
+    "Tags": [
+        {
+            "Key": "Name",
+            "Value": "NewDisk"
+        }
+    ],
+    "VolumeType": "gp2",
+    "MultiAttachEnabled": false
+}'
+++ jq -r .VolumeId
+++ echo '{
+    "AvailabilityZone": "eu-central-1c",
+    "CreateTime": "2023-05-03T08:39:22.000Z",
+    "Encrypted": false,
+    "Size": 10,
+    "SnapshotId": "",
+    "State": "creating",
+    "VolumeId": "vol-044011b6a8791791b",
+    "Iops": 100,
+    "Tags": [
+        {
+            "Key": "Name",
+            "Value": "NewDisk"
+        }
+    ],
+    "VolumeType": "gp2",
+    "MultiAttachEnabled": false
+}'
++ volume_id=vol-044011b6a8791791b
++ aws ec2 wait volume-available --volume-ids vol-044011b6a8791791b --region eu-central-1
+++ curl -s http://169.254.169.254/latest/meta-data/instance-id
++ instance_id=i-0b891c544662e9b2f
+++ jq -r .Device
+++ aws ec2 attach-volume --device /dev/xvdf --instance-id i-0b891c544662e9b2f --volume-id vol-044011b6a8791791b --region eu-central-1 --output json
++ device=/dev/xvdf
++ sudo mkfs -t ext4 /dev/xvdf
+mke2fs 1.45.6 (20-Mar-2020)
++ sudo mkdir /mnt/newdisk
++ sudo mount /dev/xvdf /mnt/newdisk
+++ read line
+++ sort -h -r -k 2
+++ sort -h -r
+++ head -n 1
+++ cut '-d ' -f1
+++ sudo du -h /run --max-depth=1
+++ awk 'NR>1{print $2}'
+++ echo '/run 6'
+++ read line
+++ echo '/run/udev 6'
+++ read line
+++ echo '/run/systemd 6'
+++ read line
+++ echo '/run/cloud-init 6'
+++ read line
+++ echo '/run/rhsm 6'
+++ read line
+++ echo '/run/NetworkManager 6'
+++ read line
+++ echo '/run/blkid 6'
+++ read line
+++ echo '/run/tuned 6'
+++ read line
+++ echo '/run/tmpfiles.d 6'
+++ read line
+++ echo '/run/initramfs 6'
+++ read line
+++ echo '/run/httpd 6'
+++ read line
+++ echo '/run/chrony 6'
+++ read line
+++ echo '/run/user 6'
+++ read line
+++ echo '/run/sudo 6'
+++ read line
+++ echo '/run/setrans 6'
+++ read line
+++ echo '/run/sepermit 6'
+++ read line
+++ echo '/run/mount 6'
+++ read line
+++ echo '/run/motd.d 6'
+++ read line
+++ echo '/run/lock 6'
+++ read line
+++ echo '/run/faillock 6'
+++ read line
+++ echo '/run/dbus 6'
+++ read line
+++ echo '/run/cryptsetup 6'
+++ read line
+++ echo '/run/console 6'
+++ read line
+++ echo '/run/chrony-helper 6'
+++ read line
++ dir_to_move=/run/user
++ sudo mkdir /run/moved
++ sudo mv /run/user /run/moved
++ sudo mkdir /run/user
++ sudo mount /dev/xvdf /run/user
+mount: /run/user: special device /dev/xvdf does not exist.
++ read -r line
+++ awk '{ print $1 }'
+++ cut -d% -f1
+++ echo 0% /sys/fs/cgroup
++ usage=0
+++ awk '{ print $2 }'
+++ echo 0% /sys/fs/cgroup
++ mount_point=/sys/fs/cgroup
++ '[' 0 -gt 5 ']'
++ read -r line
+++ awk '{ print $1 }'
+++ cut -d% -f1
+++ echo 0% /run/user/1000
++ usage=0
+++ awk '{ print $2 }'
+++ echo 0% /run/user/1000
++ mount_point=/run/user/1000
++ '[' 0 -gt 5 ']'
++ read -r line

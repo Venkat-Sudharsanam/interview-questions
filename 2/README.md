@@ -1,18 +1,27 @@
-## SSH and running script
+# Script to check the dis utils
 
-For this problem, we have dockerfile to build a container so that we can ssh into that to run the script
+To run this script the ec2 instance should be configured with below :
+```
+sudo yum install python3 python3-pip vim jq -y
 
-build the docker image on the local.
-```
-docker build -t testingubuntu .
-```
+sudo pip3 install awscli
 
-Once the docker image is build, run the image.
+aws configure
 ```
-docker run -d -p 2222:22 --name random-container testingubuntu
+With that you can run the disk-ustil.sh
+
+#Script to connect to VM and run
 ```
-now, we can ssh into the container by
+cd 2/
+ssh username@remote_machine_ip_address 'bash -s' < ./vm-details.sh
 ```
-ssh newuser@localhost -p 2222 'bash -s' < ./script.sh
+If it is a EC2 machine, follow the below command:
 ```
-When prompted for password, use "newpassword". we can change the build password to action or jenkins to keep the ssh login secure
+chmod 400 <file>.pem
+scp -i <file>.pem ./vm-details.sh ec2-user@ec2-instance-ip-address:/home/ec2-user/
+
+ssh -i "<file>.pem" ec2-user@ec2-3-69-93-134.eu-central-1.compute.amazonaws.com
+cd /home/ec2-user
+sudo chmod +x vm-details.sh
+./vm-details.sh
+```

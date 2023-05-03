@@ -4,7 +4,7 @@ tf-code folder --> this code to create new instance in aws.
 1. In your local or the environment where you need to run, have the below file ready:
 
 ```
-cat /Users/venkatsudharsanam/.aws/config 
+cat ~/.aws/config 
 [default] 
 aws_access_key_id=
 aws_secret_access_key=
